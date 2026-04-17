@@ -3,43 +3,52 @@ package generator
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"pipeforge/internal/config"
+	"pipeforge/internal/templates"
 )
 
-func GenerateNewProject(cfg config.Config) {
+func GenerateNewProjectWithRoot(cfg config.Config, root string) {
 
 	fmt.Println("Creating new CI/CD setup...")
 
-	file := fmt.Sprintf("templates/%s-%s.yml", cfg.CI, cfg.Tier)
+	fileName := fmt.Sprintf("%s-%s.yml", cfg.CI, cfg.Tier)
 
-	data, err := os.ReadFile(file)
+	// READ from embedded templates
+	data, err := templates.Files.ReadFile(fileName)
 	if err != nil {
 		fmt.Println("Template not found:", err)
 		return
 	}
 
-	os.WriteFile(".ci.yml", data, 0644)
+	// WRITE to root directory
+	target := filepath.Join(root, ".ci.yml")
+
+	err = os.WriteFile(target, data, 0644)
+	if err != nil {
+		fmt.Println("Write failed:", err)
+		return
+	}
 
 	fmt.Println("✔ CI/CD pipeline created")
 }
 
-func InjectIntoExisting(config config.Config) {
+func InjectIntoExisting(cfg config.Config, root string) {
 
 	fmt.Println("Injecting CI/CD into existing project...")
 
-	file := fmt.Sprintf("templates/%s-%s.yml", config.CI, config.Tier)
+	fileName := fmt.Sprintf("%s-%s.yml", cfg.CI, cfg.Tier)
 
-	data, err := os.ReadFile(file)
+	data, err := templates.Files.ReadFile(fileName)
 	if err != nil {
 		fmt.Println("Template not found:", err)
 		return
 	}
 
-	// IMPORTANT: real GitHub path
-	target := ".github/workflows/ci.yml"
+	target := filepath.Join(root, ".github", "workflows", "ci.yml")
 
-	err = os.MkdirAll(".github/workflows", 0755)
+	err = os.MkdirAll(filepath.Dir(target), 0755)
 	if err != nil {
 		fmt.Println("Failed to create folders:", err)
 		return

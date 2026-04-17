@@ -13,7 +13,7 @@ var addCmd = &cobra.Command{
 
 		config := prompts.GetUserChoices()
 
-		generator.InjectIntoExisting(config)
+		generator.InjectIntoExisting(config, ".")
 	},
 }
 

@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"pipeforge/internal/generator"
 	"pipeforge/internal/prompts"
 
@@ -11,9 +13,15 @@ var initCmd = &cobra.Command{
 	Use: "init",
 	Run: func(cmd *cobra.Command, args []string) {
 
+		// detect current folder
+		ctx := generator.DetectProject(".")
+
+		// user input (Vite-style override)
 		config := prompts.GetUserChoices()
 
-		generator.GenerateNewProject(config)
+		fmt.Println("Detected project:", ctx.Type)
+
+		generator.GenerateNewProjectWithRoot(config, ".")
 	},
 }
 
