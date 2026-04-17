@@ -1,4 +1,4 @@
-module github.com/av1nDs0uza/pipeforge/cmd
+module github.com/av1nDs0uza/pipeforge
 
 go 1.22.3
 
