@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"pipeforge/internal/config"
-	"pipeforge/internal/templates"
+	"github.com/av1nDs0uza/pipeforge/internal/config"
+	"github.com/av1nDs0uza/pipeforge/internal/templates"
 )
 
 func GenerateNewProjectWithRoot(cfg config.Config, root string) {

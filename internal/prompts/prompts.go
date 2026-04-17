@@ -1,7 +1,7 @@
 package prompts
 
 import (
-	"pipeforge/internal/config"
+	"github.com/av1nDs0uza/pipeforge/internal/config"
 
 	"github.com/manifoldco/promptui"
 )

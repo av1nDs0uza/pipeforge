@@ -27,7 +27,7 @@ PipeForge helps you:
 
 ## ⚙️ Installation
 
-```bash
+```
 git clone https://github.com/yourusername/pipeforge
 cd pipeforge
 go build -o pipeforge
@@ -35,12 +35,12 @@ go build -o pipeforge
 # 🚀 Usage
 
 ## Initialize CI/CD
-```bash
+```
 ./pipeforge init
 ```
 
 ## Add CI/CD to existing project
-```bash
+```
 ./pipeforge add ci
 ```
 
@@ -48,7 +48,7 @@ go build -o pipeforge
 - `.github/workflows/ci.yml`
 
 # 🧪 Running Tests
-```bash
+```
 go test ./...
 ```
 

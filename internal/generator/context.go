@@ -1,7 +1,7 @@
 package generator
 
 import (
-	"pipeforge/internal/detector"
+	"github.com/av1nDs0uza/pipeforge/internal/detector"
 )
 
 type ProjectContext struct {

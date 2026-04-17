@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"pipeforge/internal/generator"
-	"pipeforge/internal/prompts"
+	"github.com/av1nDs0uza/pipeforge/internal/generator"
+	"github.com/av1nDs0uza/pipeforge/internal/prompts"
 
 	"github.com/spf13/cobra"
 )

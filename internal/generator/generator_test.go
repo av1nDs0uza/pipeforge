@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"pipeforge/internal/config"
+	"github.com/av1nDs0uza/pipeforge/internal/config"
 )
 
 func TestGenerateNewProject(t *testing.T) {
