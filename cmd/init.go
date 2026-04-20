@@ -3,28 +3,65 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/av1nDs0uza/pipeforge/internal/config"
+	"github.com/av1nDs0uza/pipeforge/internal/detector"
 	"github.com/av1nDs0uza/pipeforge/internal/generator"
 	"github.com/av1nDs0uza/pipeforge/internal/prompts"
 
 	"github.com/spf13/cobra"
 )
 
+var ci string
+var tier string
+
 var initCmd = &cobra.Command{
 	Use: "init",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		// detect current folder
-		ctx := generator.DetectProject(".")
+		// validation
+		if ci != "" && (ci != "github" && ci != "gitlab" && ci != "jenkins") {
+			fmt.Println("Invalid CI provider")
+			return
+		}
 
-		// user input (Vite-style override)
-		config := prompts.GetUserChoices()
+		if tier != "" && (tier != "basic" && tier != "standard") {
+			fmt.Println("Invalid tier")
+			return
+		}
 
-		fmt.Println("Detected project:", ctx.Type)
+		// detect project
+		ctx := detector.DetectProject(".")
+		fmt.Println("✔ Detected project:", ctx.Type)
 
-		generator.GenerateNewProjectWithRoot(config, ".")
+		var cfg config.Config
+
+		if ci != "" && tier != "" {
+			cfg = config.Config{
+				CI:   ci,
+				Tier: tier,
+			}
+			fmt.Println("✔ Using flags:", ci, tier)
+
+		} else {
+			cfg = prompts.GetUserChoices()
+
+			if ci != "" {
+				cfg.CI = ci
+			}
+			if tier != "" {
+				cfg.Tier = tier
+			}
+		}
+
+		fmt.Println("✔ Final config:", cfg.CI, cfg.Tier)
+
+		generator.GenerateNewProjectWithRoot(cfg, ".")
 	},
 }
 
 func init() {
+	initCmd.Flags().StringVar(&ci, "ci", "", "CI provider (github/gitlab/jenkins)")
+	initCmd.Flags().StringVar(&tier, "tier", "", "Template tier (basic/standard)")
+
 	rootCmd.AddCommand(initCmd)
 }
