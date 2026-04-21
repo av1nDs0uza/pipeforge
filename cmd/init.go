@@ -13,6 +13,7 @@ import (
 
 var ci string
 var tier string
+var force bool
 
 var initCmd = &cobra.Command{
 	Use: "init",
@@ -60,6 +61,7 @@ var initCmd = &cobra.Command{
 }
 
 func init() {
+	initCmd.Flags().BoolVar(&force, "force", false, "Overwrite existing CI without prompt")
 	initCmd.Flags().StringVar(&ci, "ci", "", "CI provider (github/gitlab/jenkins)")
 	initCmd.Flags().StringVar(&tier, "tier", "", "Template tier (basic/standard)")
 
